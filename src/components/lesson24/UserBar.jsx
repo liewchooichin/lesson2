@@ -14,10 +14,22 @@ export function UserBar(){
     const [credential, credentialDispatch] = 
         useReducer(CredentialReducer, initialCredential);
     
-    function handleUsernameChange(newUsername){
+    /**[e.target.name] will automatically take the correct
+     * field name and value.
+     */
+    function handleCredentialChange(e){
+        return({
+            ...credential,
+            [e.target.name]: e.target.value,
+        })
+    }
+
+    /**The [e.target.name] works also. */
+    function handleUsernameChange(e, newUsername){
         credentialDispatch({
             type: "username_change",
             newUsername: newUsername
+            /* [e.target.name]: e.target.value, */
         })
     }
     function handlePasswordChange(newPassword){
@@ -41,7 +53,10 @@ export function UserBar(){
                 </label>
                 <input 
                     type="text"
-                    onChange={e => handleUsernameChange(e.target.value)}
+                    id="username"
+                    name="username"
+                    value={credential.usename}
+                    onChange={e => handleUsernameChange(e, e.target.value)}
                 >
                 </input>
 
@@ -49,8 +64,11 @@ export function UserBar(){
                     Password
                 </label>
                 <input 
+                    id="password"
+                    name="password"
                     onChange={e => handlePasswordChange(e.target.value)}
                     type="text"
+                    value={credential.password}
                 >
                 </input>
 

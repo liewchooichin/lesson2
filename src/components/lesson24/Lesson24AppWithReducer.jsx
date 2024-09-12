@@ -6,14 +6,14 @@ import { CountReducer } from "./CounterReducer";
 import { ProductPrice } from "./ProductPrice";
 import { ProductSum } from "./ProductSum";
 import { ProductButton } from "./ProductButton";
-import { ProductNameReducer } from "./ProductNameReducer";
-import { ProductInput } from "./ProductInput";
+import { ProductSearchReducer } from "./ProductSearchReducer";
+import { ProductSearch } from "./ProductSearch";
 import { UserBar } from "./UserBar";
 
 export function Lesson24CounterApp() {
   //const [count, setCount] = useState(0);
   const [count, countDispatch] = useReducer(CountReducer, 0);
-  const [productName, productNameDispatch] = useReducer(ProductNameReducer, "");
+  const [productSearch, productSearchDispatch] = useReducer(ProductSearchReducer, "");
   //const [discount, setDiscount] = useState(0);
   // derived discount value
   const discount = (count >= 5) ? 20 : 0;
@@ -38,10 +38,10 @@ export function Lesson24CounterApp() {
       type: "reset_count"
     })
   }
-  function handleInputChange(newText){
-    productNameDispatch({
-      type: "name_change",
-      productName: newText
+  function handleSearchChange(e, newText){
+    productSearchDispatch({
+      type: "search_change",
+      newSearch: newText
     })
   }
 
@@ -50,12 +50,13 @@ export function Lesson24CounterApp() {
       <UserBar></UserBar>
       <h1>Products</h1>
       <p>
-      <ProductInput 
+      <ProductSearch
         value={""}
         label={"Search products"}
-        handleChange={handleInputChange}
+        searchTerm={productSearch}
+        handleChange={handleSearchChange}
       >
-      </ProductInput>
+      </ProductSearch>
       </p>
       <ProductButton label={"-"} handleClick={handleMinus}>
       </ProductButton>
@@ -68,7 +69,7 @@ export function Lesson24CounterApp() {
       </p>
       <h2>{`$ ${price}`} each</h2>
       <h3>{`Discount: ${discount}%`}</h3>
-      <ProductList></ProductList>
+      
       <ProductPrice></ProductPrice>
       <ProductSum></ProductSum>
     </>
